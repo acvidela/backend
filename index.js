@@ -1,11 +1,14 @@
 const express = require('express')
 const app = express()
-
 // Importar los datos
 const { libros, autores, usuarios, prestamos } = require('./data');
 
+//Para acceder a los datos fácilmente, necesitamos la ayuda del json-parser de Express, para los POST
+app.use(express.json())
+
+//Página inicial
 app.get('/', (request, response) => {
-  response.send('<h1>Hello World!</h1>')
+  response.send('<h1>Trabajo Práctico Evaluatorio</h1><h2>Servidor ExpressJS</h2><h3>Práctica Profesional</h3>');
 })
 
 app.get('/api/libros', (request, response) => {
@@ -29,6 +32,13 @@ app.delete('/api/libros/:id', (request, response) => {
   response.status(204).end()
 })
 
+app.post('/api/libros', (request, response) => {
+  const libro = request.body
+  console.log(libro)
+  response.json(libro)
+})
+
+
 app.get('/api/autores', (request, response) => {
   response.json(autores)
 })
@@ -48,6 +58,12 @@ app.delete('/api/autores/:id', (request, response) => {
   autores = autores.filter(autor => autor.id !== id)
 
   response.status(204).end()
+})
+
+app.post('/api/autores', (request, response) => {
+  const autor = request.body
+  console.log(autor)
+  response.json(autor)
 })
 
 app.get('/api/prestamos', (request, response) => {
@@ -71,6 +87,12 @@ app.delete('/api/prestamos/:id', (request, response) => {
   response.status(204).end()
 })
 
+app.post('/api/prestamos', (request, response) => {
+  const prestamo = request.body
+  console.log(prestamo)
+  response.json(prestamo)
+})
+
 app.get('/api/usuarios', (request, response) => {
   response.json(usuarios)
 })
@@ -90,6 +112,12 @@ app.delete('/api/usuarios/:id', (request, response) => {
   usuarios = usuarios.filter(usuario => usuario.id !== id)
 
   response.status(204).end()
+})
+
+app.post('/api/usuarios', (request, response) => {
+  const usuario = request.body
+  console.log(usuario)
+  response.json(usuario)
 })
 
 const PORT = 3001
