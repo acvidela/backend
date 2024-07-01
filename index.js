@@ -43,6 +43,24 @@ app.post('/api/libros', (request, response) => {
   console.log(libro);
 })
 
+// Ruta para actualizar parcialmente un libro existente
+app.patch('/api/libros/:id', (request, response) => {
+  const id = parseInt(request.params.id);
+  const updatedFields = request.body;
+
+  // Encontrar el libro por ID
+  const index = libros.findIndex(libro => libro.id === id);
+
+  if (index !== -1) {
+      // Actualizar los campos específicos del libro
+      libros[index] = { ...libros[index], ...updatedFields };
+      response.json(libros[index]);
+  } else {
+      response.status(404).json({ error: 'Libro no encontrado' });
+  }
+});
+
+
 
 app.get('/api/autores', (request, response) => {
   response.json(autores)
@@ -75,6 +93,24 @@ app.post('/api/autores', (request, response) => {
   response.status(201).json(autor);
   console.log(autor);
 })
+
+// Ruta para actualizar parcialmente un autor existente
+app.patch('/api/autores/:id', (request, response) => {
+  const id = parseInt(request.params.id);
+  const updatedFields = request.body;
+
+  // Encontrar el autor por ID
+  const index = autores.findIndex(autor => autor.id === id);
+
+  if (index !== -1) {
+      // Actualizar los campos específicos del autor
+      autores[index] = { ...autores[index], ...updatedFields };
+      response.json(autores[index]);
+  } else {
+      response.status(404).json({ error: 'Autor no encontrado' });
+  }
+});
+
 
 app.get('/api/prestamos', (request, response) => {
   response.json(prestamos)
@@ -113,6 +149,23 @@ app.post('/api/prestamos', (request, response) => {
   console.log(prestamo);
 })
 
+// Ruta para actualizar parcialmente un préstamo existente
+app.patch('/api/prestamos/:id', (request, response) => {
+  const id = parseInt(request.params.id);
+  const updatedFields = request.body;
+
+  // Encontrar el préstamo por ID
+  const index = prestamos.findIndex(prestamo => prestamo.id === id);
+
+  if (index !== -1) {
+      // Actualizar los campos específicos del préstamo
+      prestamos[index] = { ...prestamos[index], ...updatedFields };
+      response.json(prestamos[index]);
+  } else {
+      response.status(404).json({ error: 'Préstamo no encontrado' });
+  }
+});
+
 app.get('/api/usuarios', (request, response) => {
   response.json(usuarios)
 })
@@ -144,11 +197,30 @@ app.post('/api/usuarios', (request, response) => {
   response.status(201).json(usuario);
 })
 
+// Ruta para actualizar parcialmente un usuario existente
+app.patch('/api/usuarios/:id', (request, response) => {
+  const id = parseInt(request.params.id);
+  const updatedFields = request.body;
+
+  // Encontrar el usuario por ID
+  const index = usuarios.findIndex(usuario => usuario.id === id);
+
+  if (index !== -1) {
+      // Actualizar los campos específicos del préstamo
+      usuarios[index] = { ...usuarios[index], ...updatedFields };
+      response.json(usuarios[index]);
+  } else {
+      response.status(404).json({ error: 'Usuario no encontrado' });
+  }
+});
+
+
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
 
 app.use(unknownEndpoint)
+
 const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
