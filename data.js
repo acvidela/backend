@@ -45,14 +45,14 @@ const usuarios = [
 const prestamos = [
   {
     id: 31,
-    id_prestamo: 1,
+    id_libro: 1,
     id_usuario: 21,
     fecha_prestamo: "2024-06-12T12:00:00Z",  // Fecha en formato ISO 8601
     fecha_devolucion: "2024-06-22T12:00:00Z"
   },
   {
     id: 32,
-    id_prestamo: 3,
+    id_libro: 3,
     id_usuario: 21,
     fecha_prestamo: "2024-06-12T12:00:00Z", 
     fecha_devolucion: "2024-06-22T12:00:00Z"

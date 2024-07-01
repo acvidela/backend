@@ -33,9 +33,14 @@ app.delete('/api/libros/:id', (request, response) => {
 })
 
 app.post('/api/libros', (request, response) => {
-  const libro = request.body
-  console.log(libro)
-  response.json(libro)
+  const libro = request.body;
+  if (!libro.titulo || !libro.id_autor) {
+    return response.status(400).json({ error: 'Falta título o id de autor' });
+  }
+  libro.id = libros.length + 1;
+  libros.push(libro);
+  response.status(201).json(libro);
+  console.log(libro);
 })
 
 
@@ -62,8 +67,13 @@ app.delete('/api/autores/:id', (request, response) => {
 
 app.post('/api/autores', (request, response) => {
   const autor = request.body
-  console.log(autor)
-  response.json(autor)
+  if (!autor.nombre || !autor.apellido) {
+    return response.status(400).json({ error: 'Falta nombre o apellido del autor' });
+  }
+  autor.id = autores.length + 1;
+  autores.push(autor);
+  response.status(201).json(autor);
+  console.log(autor);
 })
 
 app.get('/api/prestamos', (request, response) => {
@@ -88,9 +98,19 @@ app.delete('/api/prestamos/:id', (request, response) => {
 })
 
 app.post('/api/prestamos', (request, response) => {
-  const prestamo = request.body
-  console.log(prestamo)
-  response.json(prestamo)
+  const prestamo = request.body;
+  //Sólo se exige id_libro, id_usuario y fecha préstamo, pero no fecha de devolución
+  if (!prestamo.id_libro || !prestamo.id_usuario || !prestamo.fecha_prestamo) {
+    return response.status(400).json({ error: 'Falta id del usuario, libro o fecha del préstamo' });
+  }
+  //Si no pasa fecha de devolución se carga con NULL
+  if (!prestamo.fecha_devolucion) {
+    prestamo.fecha_devolucion = null;
+  }
+  prestamo.id = prestamos.length + 1;
+  prestamos.push(prestamo);
+  response.status(201).json(prestamo);
+  console.log(prestamo);
 })
 
 app.get('/api/usuarios', (request, response) => {
@@ -116,10 +136,19 @@ app.delete('/api/usuarios/:id', (request, response) => {
 
 app.post('/api/usuarios', (request, response) => {
   const usuario = request.body
-  console.log(usuario)
-  response.json(usuario)
+  if (!usuario.nombre || !usuario.apellido) {
+    return response.status(400).json({ error: 'Falta nombre o apellido del usuario' });
+  }
+  usuario.id = usuarios.length + 1;
+  usuarios.push(usuario);
+  response.status(201).json(usuario);
 })
 
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
 const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
